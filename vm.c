@@ -115,6 +115,7 @@ static InterpretResult run() {
             case OP_FALSE:
                 push(BOOL_VAL(false));
                 break;
+            case OP_POP: pop(); break;
             case OP_EQUAL: {
                 Value a = pop();
                 Value b = pop();
