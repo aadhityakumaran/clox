@@ -101,10 +101,11 @@ static InterpretResult run() {
 
         uint8_t instruction;
         switch (instruction = READ_BYTE()) {
-            case OP_CONSTANT:
+            case OP_CONSTANT: {
                 Value constant = READ_CONSTANT();
                 push(constant);
                 break;
+            }
             case OP_NIL:
                 push(NIL_VAL);
                 break;
@@ -114,11 +115,12 @@ static InterpretResult run() {
             case OP_FALSE:
                 push(BOOL_VAL(false));
                 break;
-            case OP_EQUAL:
+            case OP_EQUAL: {
                 Value a = pop();
                 Value b = pop();
                 push(BOOL_VAL(valuesEqual(a, b)));
                 break;
+                }
             case OP_GREATER: BINARY_OP(BOOL_VAL, >); break;
             case OP_LESS: BINARY_OP(BOOL_VAL, <); break;
             case OP_ADD: {
@@ -147,9 +149,12 @@ static InterpretResult run() {
                 }
                 push(NUMBER_VAL(-AS_NUMBER(pop())));
                 break;
-            case OP_RETURN:
+            case OP_PRINT: {
                 printValue(pop());
                 printf("\n");
+                break;
+            }
+            case OP_RETURN:
                 return INTERPRET_OK;
         }
     }
